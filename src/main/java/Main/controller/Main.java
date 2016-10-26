@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,21 +42,34 @@ public class Main {
     }
 
     //-------------------------------
-    @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
+
+    //tranzaction
+   // @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
+    @RequestMapping("/delete")
+    public ModelAndView deleteImage(@RequestParam String id) {
+        File file=new File(sqLiteDAO.getImageDataSetByID(Integer.parseInt(id)).getURL());
+        System.out.println(sqLiteDAO.getImageDataSetByID(Integer.parseInt(id)).getURL());
+        file.delete();
+        File file1=new File("/ImageSecurity_war_exploded/img/777.jpg");
+        sqLiteDAO.delete(Integer.parseInt(id));
+        List<ImageDataSet> lists=sqLiteDAO.getAllImageDataSet();
+        return new ModelAndView("allImages","lists",lists);
+    }
+
+
+    //@PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
     @RequestMapping("/uploadForm")
     public ModelAndView getUploadForm(@ModelAttribute("uploadedFile") UploadedFile uploadedFile) {
         return new ModelAndView("uploadForm");
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
+    //@PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
     @RequestMapping("/check")
     public ModelAndView getAllImages(){
-        //int x=sqLiteDAO.getAllImageDataSet().size();
         List<ImageDataSet> lists=sqLiteDAO.getAllImageDataSet();
-        return  new ModelAndView("allImages","lists",lists);
-        //return  new ModelAndView("allImages");
+        return new ModelAndView("allImages","lists",lists);
     }
-    @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
+    //@PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
     @RequestMapping("/fileUpload")
     public ModelAndView fileUploaded(@ModelAttribute("uploadedFile") UploadedFile uploadedFile,HttpServletRequest request, BindingResult result) {
         MultipartFile file = uploadedFile.getFile();
