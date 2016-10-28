@@ -6,7 +6,7 @@
   <c:forEach items="${lists}" var="imageDataSet" varStatus="status">
       <li>${imageDataSet.name}</li>
       <p>${imageDataSet.id}</p>
-      <img width="100" src="${imageDataSet.URL}" />
+      <img width="500" src="data:image/jpeg;base64,${imageDataSet.imageForShow}" />
       <form method="get" action="delete" >
           <input type="hidden"  name="id" value="${imageDataSet.id}"/>
           <input type="submit" value="send"/>

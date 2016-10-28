@@ -20,10 +20,10 @@ public class ImageDAO {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
     public void insert(ImageDataSet imageDataSet) {
-        String sql = "insert into IMAGES (NAME, URL) VALUES (:NAME, :URL)";
+        String sql = "insert into IMAGES (NAME, DATA) VALUES (:NAME, :DATA)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("NAME", imageDataSet.getName());
-        params.addValue("URL", imageDataSet.getURL());
+        params.addValue("DATA", imageDataSet.getData());
         jdbcTemplate.update(sql, params);
     }
     public void delete(int id) {
@@ -49,7 +49,7 @@ public class ImageDAO {
             ImageDataSet imageDataSet = new ImageDataSet();
             imageDataSet.setId(rs.getInt("ID"));
             imageDataSet.setName(rs.getString("NAME"));
-            imageDataSet.setURL(rs.getString("URL"));
+            imageDataSet.setData(rs.getBytes("DATA"));
             return imageDataSet;
         }
 

@@ -4,6 +4,7 @@ import Main.model.ImageDAO;
 import Main.model.ImageDataSet;
 import Main.model.UploadedFile;
 import Main.validator.FileValidator;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -47,10 +48,6 @@ public class Main {
    // @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
     @RequestMapping("/delete")
     public ModelAndView deleteImage(@RequestParam String id) {
-        File file=new File(sqLiteDAO.getImageDataSetByID(Integer.parseInt(id)).getURL());
-        System.out.println(sqLiteDAO.getImageDataSetByID(Integer.parseInt(id)).getURL());
-        file.delete();
-        File file1=new File("/ImageSecurity_war_exploded/img/777.jpg");
         sqLiteDAO.delete(Integer.parseInt(id));
         List<ImageDataSet> lists=sqLiteDAO.getAllImageDataSet();
         return new ModelAndView("allImages","lists",lists);
@@ -74,7 +71,7 @@ public class Main {
     public ModelAndView fileUploaded(@ModelAttribute("uploadedFile") UploadedFile uploadedFile,HttpServletRequest request, BindingResult result) {
         MultipartFile file = uploadedFile.getFile();
         fileValidator.validate(uploadedFile, result);
-        String fileName = file.getOriginalFilename();
+        String base64Encoded = null;
         String name=uploadedFile.getName();
         if (result.hasErrors()) {
             return new ModelAndView("uploadForm");
@@ -83,26 +80,17 @@ public class Main {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String rootPath = request.getSession().getServletContext().getRealPath("/");
-                File dir = new File(rootPath + File.separator + "img");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                File uploadFile = new File(dir.getAbsolutePath() + File.separator + fileName);
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
-                stream.write(bytes);
-                stream.flush();
-                stream.close();
-                String URL=request.getContextPath()+"/img/"+fileName;
                 ImageDataSet imageDataSet=new ImageDataSet();
                 imageDataSet.setName(name);
-                imageDataSet.setURL(URL);
-                System.out.println("trololo");
+                imageDataSet.setData(bytes);
                 sqLiteDAO.insert(imageDataSet);
+                byte[] encodeBase64 = Base64.encodeBase64(bytes);
+                base64Encoded = new String(encodeBase64, "UTF-8");
             } catch (Exception e) {
 
             }
         }
-        return new ModelAndView("showFile", "message", fileName);
+
+        return new ModelAndView("showFile", "message", base64Encoded);
     }
 }
