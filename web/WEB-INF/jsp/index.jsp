@@ -11,19 +11,5 @@
 <p>
   <a href="<%=request.getContextPath()%>/uploadForm">Upload Form</a> | <a href="<%=request.getContextPath()%>/check">check</a> | <a href="<%=request.getContextPath()%>/login">Login</a>
 </p>
-<p><u>Admin login details</u></p>
-<p>
-<ul>
-  <li>username: <strong>admin</strong></li>
-  <li>password: <strong>admin</strong></li>
-</ul>
-</p>
-<p><u>Member login details</u></p>
-<p>
-<ul>
-  <li>username: <strong>member</strong></li>
-  <li>password: <strong>member</strong></li>
-</ul>
-</p>
 </body>
 </html>
