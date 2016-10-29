@@ -9,7 +9,7 @@
 <body>
 <h1>${ message }</h1>
 <p>
-  <a href="<%=request.getContextPath()%>/uploadForm">Upload Form</a> | <a href="<%=request.getContextPath()%>/check">check</a> | <a href="<%=request.getContextPath()%>/login">Login</a>
+  <a href="<%=request.getContextPath()%>/uploadForm">Upload Form</a> | <a href="<%=request.getContextPath()%>/check">check</a> | <a href="<%=request.getContextPath()%>/login">Login</a> | <a href="<%=request.getContextPath()%>/gameLaunch">game Launch</a>
 </p>
 </body>
 </html>

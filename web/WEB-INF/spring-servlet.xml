@@ -29,7 +29,7 @@
               </property>
        </bean>
 
-    <bean id="fileValidator" class="Main.validator.FileValidator"/>
+
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
@@ -37,7 +37,7 @@
     </bean>
 
 
-    <bean id="sqLiteDao" class="Main.model.ImageDAO" />
+
 
 
 </beans>

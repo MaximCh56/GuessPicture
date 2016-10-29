@@ -11,9 +11,9 @@
 
   <h2>Being Java Guys | Hello World</h2>
   <h3>
-
-    Image:
-    <img  src="data:image/jpeg;base64,${message}" />
+    <%--File name : "<strong> ${message}</strong>" uploaded successfully !--%>
+    <%--<img width="100" src="${message}" />--%>
+    <img width="500"  src="data:image/jpeg;base64,${message}" />
 
     <spring:form method="get"  modelAttribute="uploadedFile" action="check">
 
