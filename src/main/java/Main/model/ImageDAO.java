@@ -1,6 +1,7 @@
 package Main.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -41,6 +43,10 @@ public class ImageDAO {
         String sql = "select * from IMAGES";
         return jdbcTemplate.query(sql, new IMAGERowMapper());
     }
+    public List<ContainerID> getAllID() {
+        String sql = "select id from IMAGES";
+        return jdbcTemplate.query(sql, new ContainerIDRowMapper());
+    }
     private static final class IMAGERowMapper implements RowMapper<ImageDataSet> {
 
         @Override
@@ -50,6 +56,16 @@ public class ImageDAO {
             imageDataSet.setName(rs.getString("NAME"));
             imageDataSet.setData(rs.getBytes("DATA"));
             return imageDataSet;
+        }
+
+    }
+    private static final class ContainerIDRowMapper implements RowMapper<ContainerID> {
+
+        @Override
+        public ContainerID mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ContainerID containerID=new ContainerID();
+            containerID.setId(rs.getInt("ID"));
+            return containerID;
         }
 
     }

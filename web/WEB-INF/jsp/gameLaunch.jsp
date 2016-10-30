@@ -12,7 +12,7 @@
     <title></title>
 </head>
 <body>
-<form:form method="POST" action="game" commandName="guessGameImage">
+<form:form method="POST" action="game" commandName="game">
   <table>
     <tr>
       <td>Do you want the big size?</td>

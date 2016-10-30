@@ -3,10 +3,12 @@ package Main.model;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @Component
-public class Game {
+public class Game implements Serializable {
     private int countStep=5;
-    private int currentStep;
+    private int currentStep=0;
     private int trueAnswerCount;
 
     public Game() {

@@ -1,9 +1,6 @@
 package Main.controller;
 
-import Main.model.Game;
-import Main.model.ImageDAO;
-import Main.model.ImageDataSet;
-import Main.model.UploadedFile;
+import Main.model.*;
 import Main.validator.FileValidator;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +8,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @Controller
+@SessionAttributes("game")
 public class Main {
     @Autowired
     FileValidator fileValidator;
@@ -52,26 +50,36 @@ public class Main {
 
 
     // @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
+
     @RequestMapping("/game")
-    public ModelAndView gameGuessImage(@ModelAttribute("guessGameImage") Game game) {
-        Random random=new Random();
-        ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("gamePages");
-        ImageDataSet imageDataSetForShow=sqLiteDAO.getImageDataSetByID((random.nextInt(sqLiteDAO.getAllImageDataSet().size()))+1);
-        ImageDataSet imageDataSetForName=sqLiteDAO.getImageDataSetByID((random.nextInt(sqLiteDAO.getAllImageDataSet().size()))+1);
-        modelAndView.addObject("Image",imageDataSetForShow.getImageForShow());
-        modelAndView.addObject("trueName",imageDataSetForShow.getName());
-        modelAndView.addObject("falseName",imageDataSetForName.getName());
-        return modelAndView;
+    public ModelAndView gameGuessImage(@ModelAttribute Game game) {
+        if (game.getCurrentStep()==game.getCountStep()){
+            return new ModelAndView("endGame");
+        }else {
+            game.setCurrentStep(game.getCurrentStep() + 1);
+            System.out.println("Step "+game.getCurrentStep());
+            System.out.println("Step "+game.toString());
+            Random random = new Random();
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("gamePages");
+            List<ContainerID> arrayList=sqLiteDAO.getAllID();
+            ImageDataSet imageDataSetForShow = sqLiteDAO.getImageDataSetByID(arrayList.get(random.nextInt(arrayList.size())).getId());
+            ImageDataSet imageDataSetForName = sqLiteDAO.getImageDataSetByID(arrayList.get(random.nextInt(arrayList.size())).getId());
+            modelAndView.addObject("Image", imageDataSetForShow.getImageForShow());
+            modelAndView.addObject("trueName", imageDataSetForShow.getName());
+            modelAndView.addObject("falseName", imageDataSetForName.getName());
+            return modelAndView;
+        }
     }
 
     // @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
     @RequestMapping("/gameLaunch")
-    public ModelAndView launchGame(@ModelAttribute("guessGameImage") Game game) {
+    public ModelAndView launchGame() {
+
         if (sqLiteDAO.getAllImageDataSet().size()<5){
             return new ModelAndView("notEnoughImages");
         }else {
-            return new ModelAndView("gameLaunch");
+            return new ModelAndView("gameLaunch","game",new Game());
         }
 
     }
@@ -107,8 +115,6 @@ public class Main {
                 imageDataSet.setName(name);
                 imageDataSet.setData(bytes);
                 sqLiteDAO.insert(imageDataSet);
-//                byte[] encodeBase64 = Base64.encodeBase64(bytes);
-//                base64Encoded = new String(encodeBase64, "UTF-8");
             } catch (Exception e) {
 
             }
