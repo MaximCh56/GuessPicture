@@ -43,7 +43,7 @@ public class ImageDAO {
         String sql = "select * from IMAGES";
         return jdbcTemplate.query(sql, new IMAGERowMapper());
     }
-    public List<ContainerID> getAllID() {
+    public List<Integer> getAllID() {
         String sql = "select id from IMAGES";
         return jdbcTemplate.query(sql, new ContainerIDRowMapper());
     }
@@ -59,12 +59,11 @@ public class ImageDAO {
         }
 
     }
-    private static final class ContainerIDRowMapper implements RowMapper<ContainerID> {
+    private static final class ContainerIDRowMapper implements RowMapper<Integer> {
 
         @Override
-        public ContainerID mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ContainerID containerID=new ContainerID();
-            containerID.setId(rs.getInt("ID"));
+        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Integer containerID=new Integer(rs.getInt("ID"));
             return containerID;
         }
 

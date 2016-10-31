@@ -11,6 +11,6 @@
     <title></title>
 </head>
 <body>
-end game
+end game ${trueAnswerCount}
 </body>
 </html>

@@ -9,9 +9,18 @@ import java.io.Serializable;
 public class Game implements Serializable {
     private int countStep=5;
     private int currentStep=0;
-    private int trueAnswerCount;
+    private int trueAnswerCount=0;
+    private String trueAnswer;
 
     public Game() {
+    }
+
+    public String getTrueAnswer() {
+        return trueAnswer;
+    }
+
+    public void setTrueAnswer(String trueAnswer) {
+        this.trueAnswer = trueAnswer;
     }
 
     public int getCountStep() {

@@ -52,9 +52,14 @@ public class Main {
     // @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
 
     @RequestMapping("/game")
-    public ModelAndView gameGuessImage(@ModelAttribute Game game) {
+    public ModelAndView gameGuessImage(@ModelAttribute Game game,@RequestParam(value = "answer", required=false) String answer) {
+        if(answer != null){
+            if (game.getTrueAnswer().equals(answer)){
+                game.setTrueAnswerCount(game.getTrueAnswerCount()+1);
+            }
+        }
         if (game.getCurrentStep()==game.getCountStep()){
-            return new ModelAndView("endGame");
+            return new ModelAndView("endGame","trueAnswerCount",game.getTrueAnswerCount());
         }else {
             game.setCurrentStep(game.getCurrentStep() + 1);
             System.out.println("Step "+game.getCurrentStep());
@@ -62,9 +67,10 @@ public class Main {
             Random random = new Random();
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("gamePages");
-            List<ContainerID> arrayList=sqLiteDAO.getAllID();
-            ImageDataSet imageDataSetForShow = sqLiteDAO.getImageDataSetByID(arrayList.get(random.nextInt(arrayList.size())).getId());
-            ImageDataSet imageDataSetForName = sqLiteDAO.getImageDataSetByID(arrayList.get(random.nextInt(arrayList.size())).getId());
+            List<Integer> arrayList=sqLiteDAO.getAllID();
+            ImageDataSet imageDataSetForShow = sqLiteDAO.getImageDataSetByID(arrayList.get(random.nextInt(arrayList.size())));
+            ImageDataSet imageDataSetForName = sqLiteDAO.getImageDataSetByID(arrayList.get(random.nextInt(arrayList.size())));
+            game.setTrueAnswer(imageDataSetForShow.getName());
             modelAndView.addObject("Image", imageDataSetForShow.getImageForShow());
             modelAndView.addObject("trueName", imageDataSetForShow.getName());
             modelAndView.addObject("falseName", imageDataSetForName.getName());

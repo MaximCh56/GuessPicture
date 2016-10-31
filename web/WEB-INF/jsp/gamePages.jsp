@@ -13,11 +13,11 @@
 <body>
 <img width="500"  src="data:image/jpeg;base64,${Image}" />
 <p><form method="get" action="game" >
-  <%--<input type="hidden"  name="id" value="${trueName}"/>--%>
+  <input type="hidden"  name="answer" value="${trueName}"/>
   <input type="submit" value="${trueName}"/>
 </form></p>
 <p><form method="get" action="game" >
-  <%--<input type="hidden"  name="id" value="Кнопка + ${falseName}"/>--%>
+  <input type="hidden"  name="answer" value="${falseName}"/>
   <input type="submit" value="${falseName}"/>
 </form></p>
 </body>
