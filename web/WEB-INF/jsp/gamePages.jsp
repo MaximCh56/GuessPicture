@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Maxim
@@ -12,11 +13,11 @@
 </head>
 <body>
 <img width="500"  src="data:image/jpeg;base64,${Image}" />
-<p><form method="get" action="game" >
+<p><form method="post" action="game" >
   <input type="hidden"  name="answer" value="${trueName}"/>
   <input type="submit" value="${trueName}"/>
 </form></p>
-<p><form method="get" action="game" >
+<p><form method="post" action="game" >
   <input type="hidden"  name="answer" value="${falseName}"/>
   <input type="submit" value="${falseName}"/>
 </form></p>

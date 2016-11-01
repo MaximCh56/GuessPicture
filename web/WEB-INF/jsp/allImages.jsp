@@ -7,7 +7,7 @@
       <li>${imageDataSet.name}</li>
       <p>${imageDataSet.id}</p>
       <img width="500" src="data:image/jpeg;base64,${imageDataSet.imageForShow}" />
-      <form method="get" action="delete" >
+      <form method="post" action="delete" >
           <input type="hidden"  name="id" value="${imageDataSet.id}"/>
           <input type="submit" value="send"/>
       </form>

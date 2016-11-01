@@ -13,6 +13,7 @@
   <h3>
     <%--File name : "<strong> ${message}</strong>" uploaded successfully !--%>
     <%--<img width="100" src="${message}" />--%>
+
     <img width="500"  src="data:image/jpeg;base64,${message}" />
 
     <spring:form method="get"  modelAttribute="uploadedFile" action="check">

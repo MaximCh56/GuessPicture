@@ -11,8 +11,17 @@ public class Game implements Serializable {
     private int currentStep=0;
     private int trueAnswerCount=0;
     private String trueAnswer;
+    private boolean endGame;
 
     public Game() {
+    }
+
+    public boolean isEndGame() {
+        return endGame;
+    }
+
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
     }
 
     public String getTrueAnswer() {

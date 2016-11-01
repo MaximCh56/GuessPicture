@@ -16,7 +16,7 @@
 
   <br />
   <%--<form:form method="post" enctype="multipart/form-data" modelAttribute="uploadedFile" action="fileUpload.htm">--%>
-  <form action="./fileUpload?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
+  <form action="fileUpload" method="post" enctype="multipart/form-data">
     <table>
 
       <tr>

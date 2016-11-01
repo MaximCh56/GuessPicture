@@ -52,18 +52,22 @@ public class Main {
     // @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
 
     @RequestMapping("/game")
-    public ModelAndView gameGuessImage(@ModelAttribute Game game,@RequestParam(value = "answer", required=false) String answer) {
+    public ModelAndView gameGuessImage(@ModelAttribute Game game,@RequestParam(value = "answer", required=false) String answer) {//need rgp pattern
         if(answer != null){
+            System.out.println(answer);
+            game.setCurrentStep(game.getCurrentStep() + 1);
             if (game.getTrueAnswer().equals(answer)){
                 game.setTrueAnswerCount(game.getTrueAnswerCount()+1);
             }
         }
+        if (game.isEndGame()){
+            return new ModelAndView("index");
+        }
         if (game.getCurrentStep()==game.getCountStep()){
+            game.setEndGame(true);
             return new ModelAndView("endGame","trueAnswerCount",game.getTrueAnswerCount());
         }else {
-            game.setCurrentStep(game.getCurrentStep() + 1);
             System.out.println("Step "+game.getCurrentStep());
-            System.out.println("Step "+game.toString());
             Random random = new Random();
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("gamePages");
