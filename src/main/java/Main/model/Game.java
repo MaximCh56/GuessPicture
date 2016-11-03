@@ -11,9 +11,27 @@ public class Game implements Serializable {
     private int currentStep=0;
     private int trueAnswerCount=0;
     private String trueAnswer;
+    private String falseAnswer;
+    private String image;
     private boolean endGame;
 
     public Game() {
+    }
+
+    public String getFalseAnswer() {
+        return falseAnswer;
+    }
+
+    public void setFalseAnswer(String falseAnswer) {
+        this.falseAnswer = falseAnswer;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public boolean isEndGame() {
